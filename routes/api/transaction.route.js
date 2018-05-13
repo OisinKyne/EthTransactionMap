@@ -5,14 +5,20 @@ var router = express.Router()
 
 // Getting the Transaction Controller that we just created
 
-var ToDoController = require('../../controllers/transaction.controller');
+var TransactionController = require('../../controllers/transaction.controller');
 
 
 // Map each API to the Controller FUnctions
 
-router.get('/', ToDoController.getTransactions)
+router.get('/', TransactionController.getTransactions)
 
-router.post('/', ToDoController.createTransaction)
+router.post('/', TransactionController.createTransaction)
+
+router.put('/', TransactionController.updateTransaction)
+
+router.delete('/:id',TransactionController.removeTransaction)
+
+router.get('/geth', TransactionController.gethTransaction)
 
 
 // Export the Router

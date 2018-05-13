@@ -17,7 +17,13 @@ exports.getTransactions = async function(query, page, limit){
     
     try {
         var transactions = await Transaction.paginate(query, options)
-        
+        console.log('Transactions:');
+        var id = transactions.docs[0].id
+        console.log(id);
+        var transaction = await Transaction.findById(id);
+        console.log('New transaction object:');
+        console.log(transaction);
+
         // Return the transactions list that was retured by the mongoose promise
         return transactions;
 
@@ -29,7 +35,7 @@ exports.getTransactions = async function(query, page, limit){
 }
 
 exports.createTransaction = async function(transaction){
-    
+    try{
     // Creating a new Mongoose Object by using the new keyword
     var newTransaction = new Transaction({
         hash: transaction.hash,
@@ -37,14 +43,18 @@ exports.createTransaction = async function(transaction){
         fromAddress: transaction.fromAddress,
         date: new Date(),
         eth: transaction.eth,
-        gasUsed: transaction.gasPrice,
+        gasUsed: transaction.gasUsed,
         blockNumber: transaction.blockNumber,
         info: transaction.info
-    })
+    })}
+    catch(e)
+    {
+        throw Error('Error creating Transaction Object from post headers.')
+    }
 
     try{
 
-        // Saving the Todo 
+        // Saving the Transaction 
         var savedTransaction = await newTransaction.save()
 
         return savedTransaction;
@@ -55,50 +65,54 @@ exports.createTransaction = async function(transaction){
     }
 }
 
-// exports.updateTransaction = async function(transaction){
-//     var id = transaction.id
+exports.updateTransaction = async function(transaction){
+    var id = transaction.id
 
-//     try{
-//         //Find the old Transaction Object by the Id
+    try{
+        //Find the old Transaction Object by the Id
     
-//         var oldTransaction = await Transaction.findById(id);
-//     }catch(e){
-//         throw Error("Error occured while Finding the Transaction")
-//     }
+        var oldTransaction = await Transaction.findById(id);
+    }catch(e){
+        throw Error("Error occured while Finding the Transaction")
+    }
 
-//     // If no old Transaction Object exists return false
-//     if(!oldTransaction){
-//         return false;
-//     }
+    // If no old Transaction Object exists return false
+    if(!oldTransaction){
+        return false;
+    }
 
-//     console.log(oldTransaction)
+    console.log(oldTransaction)
 
-//     //Edit the Todo Object
-//     oldTodo.title = todo.title
-//     oldTodo.description = todo.description
-//     oldTodo.status = todo.status
+    //Edit the Transaction Object
+    oldTransaction.hash = transaction.hash
+    oldTransaction.toAddress = transaction.toAddress
+    oldTransaction.fromAddress = transaction.fromAddress
+    oldTransaction.date = transaction.date
+    oldTransaction.eth = transaction.eth
+    oldTransaction.gasUsed = transaction.gasUsed
+    oldTransaction.blockNumber = transaction.blockNumber
+    oldTransaction.info = transaction.info
 
+    console.log(oldTransaction)
 
-//     console.log(oldTodo)
+    try{
+        var savedTransaction = await oldTransaction.save()
+        return savedTransaction;
+    }catch(e){
+        throw Error("And Error occured while updating the Transaction");
+    }
+}
 
-//     try{
-//         var savedTodo = await oldTodo.save()
-//         return savedTodo;
-//     }catch(e){
-//         throw Error("And Error occured while updating the Todo");
-//     }
-// }
-
-// exports.deleteTodo = async function(id){
+exports.deleteTransaction = async function(id){
     
-//     // Delete the Todo
-//     try{
-//         var deleted = await ToDo.remove({_id: id})
-//         if(deleted.result.n === 0){
-//             throw Error("Todo Could not be deleted")
-//         }
-//         return deleted
-//     }catch(e){
-//         throw Error("Error Occured while Deleting the Todo")
-//     }
-// }
+    // Delete the Transaction
+    try{
+        var deleted = await Transaction.remove({_id: id})
+        if(deleted.result.n === 0){
+            throw Error("Transaction Could not be deleted")
+        }
+        return deleted
+    }catch(e){
+        throw Error("Error Occured while Deleting the Transaction")
+    }
+}
