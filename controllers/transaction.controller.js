@@ -74,12 +74,18 @@ exports.gethTransaction = async function (req, res, next) {
     var hash = req.query.hash === null ? 'wronghash' : req.query.hash;
     console.log(hash);
 
-    var gethTransaction = GethService.findTransaction(hash);
+    var gethTransaction = GethService.findTransaction(hash).then( (geth) => {
+        console.log('Controller Callback fired.');
+        return res.status(200).json({status:200, geth:geth})
+        //return res.status(200).json({status:200, fromAddress:gethTransaction.fromaddress, toAddress:gethTransaction.toaddress})
+    });
 
-    console.log('GethTransaction service returned: ');
-    console.log(gethTransaction)
+    // console.log('GethTransaction service returned: ');
+    // console.log(gethTransaction)
+    // console.log(typeof(gethTransaction));
+
     
-    return res.status(200).json({status:200, message:"This is geth transaction request."})
+    
 }
 
 exports.updateTransaction = async function(req, res, next){
