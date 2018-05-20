@@ -10,50 +10,64 @@ var GethService = require('../services/geth.service')
 
 _this = this
 
-exports.getTransactions = async function (req, res, next) {
+// Function to retrieve all transactions we have in the DB already.
 
-    if (!req.body.hashes) {
-        return res.status(400).json({ status: 400., message: "Please supply a list of transaction hashes." })
+async function getTransactionsFromDB(hashes) {
+    
+    // Query the DB for transactions there first and query geth for the missing ones.
+    transactions = {
+        fromDatabase: new Array,
+        toGetFromWeb3: new Array
     }
 
-    var hashes = req.body.hashes;
-
-    // Query the DB for transactions there first and query geth for the missing ones.
-    databaseTransactions = [];
-    transactionsForWeb3 = [];
     for (i = 0; i < hashes.length; i++) {
         console.log('Processing: ' + hashes[i]);
         databaseTransaction = await TransactionService.getTransactionByHash(hashes[i]);
 
         if (databaseTransaction === null) {
             //Save this hash as the list to retrieve from Geth. 
-            transactionsForWeb3.push(hashes[i]);
+            transactions.toGetFromWeb3.push(hashes[i]);
         }
         else {
-            databaseTransactions.push(databaseTransaction);
+            transactions.fromDatabase.push(databaseTransaction);
         }
     }
-    // Now retrieve missing ones from geth.
+    return transactions;
+}
 
-    gethTransactions = [];
-    for (i = 0; i < transactionsForWeb3.length; i++) {
-        gethTransactions.push(await GethService.findTransaction(transactionsForWeb3[i]));
+
+
+exports.getTransactions = async function (req, res, next) {
+
+    // Test we're given a JSON body with an array named 'hashes'
+    if (!req.body.hashes) {
+        return res.status(400).json({ status: 400., message: "Please supply a list of transaction hashes." })
+    } else if (!Array.isArray(req.body.hashes)) {
+        return res.status(400).json({ status: 400., message: "Please supply a list of transaction hashes in JSON format." })
     }
-    console.log('Geth Transactions Returned: ')
-    console.log(gethTransactions)
-    transactionsToSave = [];
-    for (i = 0; i < gethTransactions.length; i++) {
+
+    // Check if we have any of these hashes in our DB. 
+    var transactions = await getTransactionsFromDB(req.body.hashes);
+    
+    // Now retrieve missing ones from geth.
+    transactions.fromWeb3 = [];
+    for (i = 0; i < transactions.toGetFromWeb3.length; i++) {
+        transactions.fromWeb3.push(await GethService.findTransaction(transactions.toGetFromWeb3[i]));
+    }
+
+    transactionObjectsToSave = [];
+    for (i = 0; i < transactions.fromWeb3.length; i++) {
         try {
             var transaction = {
-                hash: gethTransactions[i].hash,
-                toAddress: gethTransactions[i].from,
-                fromAddress: gethTransactions[i].to,
-                eth: Number(gethTransactions[i].value),
-                gasUsed: Number(gethTransactions[i].gasPrice),
-                blockNumber: Number(gethTransactions[i].blockNumber),
-                info: gethTransactions[i].input
+                hash: transactions.fromWeb3[i].hash,
+                toAddress: transactions.fromWeb3[i].from,
+                fromAddress: transactions.fromWeb3[i].to,
+                eth: Number(transactions.fromWeb3[i].value),
+                gasUsed: Number(transactions.fromWeb3[i].gasPrice),
+                blockNumber: Number(transactions.fromWeb3[i].blockNumber),
+                info: transactions.fromWeb3[i].input
             }
-            transactionsToSave.push(transaction);
+            transactionObjectsToSave.push(transaction);
             TransactionService.createTransaction(transaction);
 
         } catch (e) {
@@ -61,15 +75,14 @@ exports.getTransactions = async function (req, res, next) {
         }
     }
 
-    databaseTransactions.push(transactionsToSave)
-    output = databaseTransactions;
+    // Merge the transactions that came from the DB with the ones that came from Web3. 
+    output = transactions.fromWeb3.concat(transactions.fromDatabase);
     console.log('Finally returning ' + output.length + ' transaction objects. ');
 
     try {
-        
         return res.status(200).json(output)
     } catch (e) {
-        return res.status(400).json({ status: 400, message: e.message })
+        return res.status(500).json({ status: 500, message: e.message })
     }
 
 }
