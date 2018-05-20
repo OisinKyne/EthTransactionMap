@@ -36,29 +36,18 @@ exports.getTransactions = async function(query, page, limit){
 
  
 exports.getTransactionByHash = async function(hash){
-
-    console.log('transaction.service.getTransactionByHash() called with hash:');
-    console.log(hash);
-    
-    // Try Catch the awaited promise to handle the error 
     
     try {
-        // var transactions = await Transaction.paginate(query, options)
-        // console.log('Transactions:');
-        // var id = transactions.docs[0].id
-        // console.log(id);
-        // var transaction = await Transaction.findById(id);
-        // console.log('New transaction object:');
-        // console.log(transaction);
+        var transaction = await Transaction.findOne({hash:hash});
 
-        // // Return the transactions list that was retured by the mongoose promise
-        // return transactions;
-        return null
+        console.log('We checked the DB for: ' + hash);
+        console.log(transaction);
+        return transaction
 
     } catch (e) {
         console.log(e);
         // return a Error message describing the reason 
-        throw Error('Error while Paginating Transactions')
+        throw Error('Error while searching the DB for hash: ' + hash)
     }
 }
 

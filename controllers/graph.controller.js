@@ -50,24 +50,23 @@ exports.getTransactions = async function (req, res, next) {
     var transactions = await getTransactionsFromDB(req.body.hashes);
     
     // Now retrieve missing ones from geth.
-    transactions.fromWeb3 = [];
-    for (i = 0; i < transactions.toGetFromWeb3.length; i++) {
-        transactions.fromWeb3.push(await GethService.findTransaction(transactions.toGetFromWeb3[i]));
-    }
-
     transactionObjectsToSave = [];
-    for (i = 0; i < transactions.fromWeb3.length; i++) {
+    for (i = 0; i < transactions.toGetFromWeb3.length; i++) {
+        transactionObjectsToSave.push(await GethService.findTransaction(transactions.toGetFromWeb3[i]));
+    }
+    transactions.fromWeb3 = [];
+    for (i = 0; i < transactionObjectsToSave.length; i++) {
         try {
             var transaction = {
-                hash: transactions.fromWeb3[i].hash,
-                toAddress: transactions.fromWeb3[i].from,
-                fromAddress: transactions.fromWeb3[i].to,
-                eth: Number(transactions.fromWeb3[i].value),
-                gasUsed: Number(transactions.fromWeb3[i].gasPrice),
-                blockNumber: Number(transactions.fromWeb3[i].blockNumber),
-                info: transactions.fromWeb3[i].input
+                hash: transactionObjectsToSave[i].hash,
+                toAddress: transactionObjectsToSave[i].from,
+                fromAddress: transactionObjectsToSave[i].to,
+                eth: Number(transactionObjectsToSave[i].value),
+                gasUsed: Number(transactionObjectsToSave[i].gasPrice),
+                blockNumber: Number(transactionObjectsToSave[i].blockNumber),
+                info: transactionObjectsToSave[i].input
             }
-            transactionObjectsToSave.push(transaction);
+            transactions.fromWeb3.push(transaction);
             TransactionService.createTransaction(transaction);
 
         } catch (e) {
