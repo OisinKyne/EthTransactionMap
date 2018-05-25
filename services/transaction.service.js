@@ -40,8 +40,6 @@ exports.getTransactionByHash = async function(hash){
     try {
         var transaction = await Transaction.findOne({hash:hash});
 
-        console.log('We checked the DB for: ' + hash);
-        console.log(transaction);
         return transaction
 
     } catch (e) {

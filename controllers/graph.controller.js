@@ -13,7 +13,7 @@ _this = this
 // Function to retrieve all transactions we have in the DB already.
 
 async function getTransactionsFromDB(hashes) {
-    
+
     // Query the DB for transactions there first and query geth for the missing ones.
     transactions = {
         fromDatabase: new Array,
@@ -21,7 +21,6 @@ async function getTransactionsFromDB(hashes) {
     }
 
     for (i = 0; i < hashes.length; i++) {
-        console.log('Processing: ' + hashes[i]);
         databaseTransaction = await TransactionService.getTransactionByHash(hashes[i]);
 
         if (databaseTransaction === null) {
@@ -48,7 +47,7 @@ exports.getTransactions = async function (req, res, next) {
 
     // Check if we have any of these hashes in our DB. 
     var transactions = await getTransactionsFromDB(req.body.hashes);
-    
+
     // Now retrieve missing ones from geth.
     transactionObjectsToSave = [];
     for (i = 0; i < transactions.toGetFromWeb3.length; i++) {
