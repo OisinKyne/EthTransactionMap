@@ -1,11 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { RetrieveTransactionsService } from './retrieve-transactions.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('RetrieveTransactionsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RetrieveTransactionsService]
+      providers: [RetrieveTransactionsService, HttpClient, HttpHandler]
     });
   });
 

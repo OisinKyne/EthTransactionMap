@@ -1,26 +1,19 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div class="container">
-  <ngx-graph style="height: 100%;" class="chart-container" [legend]="showLegend" [scheme]="colorSet" [links]="links" (legendLabelClick)="onLegendLabelClick($event)"
-    [nodes]="nodes" [orientation]="orientation" [curve]="curve" >
-    <!-- 
-  <ng-template #defsTemplate>
-    <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
-      <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
-    </svg:marker>     
-  </ng-template> -->
+<mat-toolbar >
 
-    <ng-template #nodeTemplate let-node>
-      <svg:g class="node" ngx-tooltip [tooltipPlacement]="'top'" [tooltipType]="'tooltip'" [tooltipTitle]="node.label">
-        <svg:rect [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.options.color" />
-        <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}</svg:text>
-      </svg:g>
-    </ng-template>
+    <span>Ethereum Transaction Visualiser</span>
+    <mat-form-field style="width:30%;margin-left: 8px;">
+      <textarea matInput 
+      matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2
+      #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)" placeholder="Enter a CSV list of Transaction Hashes"></textarea>
+    </mat-form-field>
+    <span class="example-spacer"></span>
+    <!-- Place this tag where you want the button to render. -->
+    <a class="github-button" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
 
-    <ng-template #linkTemplate let-link>
-      <svg:g>
-        <svg:path class="line" stroke="black" stroke-width="2">
-        </svg:path>
-      </svg:g>
-    </ng-template>
-  </ngx-graph>
+</mat-toolbar>
+
+
+<div *ngIf="graph.nodes.length!==0">
+  <graph-component [graph]="graph"></graph-component>
 </div>
+<div *ngIf="graph.nodes.length===0">Waiting for hashes</div>

@@ -1,0 +1,5 @@
+
+  <ngx-charts-force-directed-graph class="chart-container" [legend]="showLegend"
+    [animations]="animations" [legendTitle]="legendTitle" [links]="graph.links"  (legendLabelClick)="onLegendLabelClick($event)"
+    [nodes]="graph.nodes" [scheme]="colorScheme" [view]="view" [tooltipDisabled]="tooltipDisabled" (select)="select($event)" [force]="force">
+  </ngx-charts-force-directed-graph> 

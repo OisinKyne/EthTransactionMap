@@ -1,7 +1,8 @@
-.container {
-    background: #330000;
-    height: 100%;
-    position: fixed;
-    padding: 0px;
-    margin: 0px;
-}
+
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .example-icon {
+    padding: 0 14px;
+  }

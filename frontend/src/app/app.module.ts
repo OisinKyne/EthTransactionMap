@@ -1,23 +1,32 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { NgxGraphModule } from '@swimlane/ngx-graph';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatToolbarModule } from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { AppComponent } from './app.component';
+import { GraphComponent } from './components/graph.component';
 import { RetrieveTransactionsService } from './services/retrieve-transactions.service';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, GraphComponent  
   ],
   imports: [
     BrowserModule,
     NgxGraphModule,
     NgxChartsModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    FormsModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatListModule
   ],
   providers: [RetrieveTransactionsService],
   bootstrap: [AppComponent]
