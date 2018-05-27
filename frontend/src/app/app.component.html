@@ -1,7 +1,7 @@
 <mat-toolbar >
 
     <span>Ethereum Transaction Visualiser</span>
-    <mat-form-field style="width:30%;margin-left: 8px;">
+    <mat-form-field style="width:30%;margin-left: 10px;">
       <textarea matInput 
       matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2
       #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)" placeholder="Enter a CSV list of Transaction Hashes"></textarea>
@@ -16,4 +16,3 @@
 <div *ngIf="graph.nodes.length!==0">
   <graph-component [graph]="graph"></graph-component>
 </div>
-<div *ngIf="graph.nodes.length===0">Waiting for hashes</div>
