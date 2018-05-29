@@ -4,6 +4,7 @@ import { forceCollide, forceManyBody, forceSimulation, forceX, forceY } from 'd3
 import * as shape from 'd3-shape';
 import { Transaction } from './models/transaction.model';
 import { RetrieveTransactionsService } from './services/retrieve-transactions.service';
+import { FormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { RetrieveTransactionsService } from './services/retrieve-transactions.se
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  control = new FormControl('', Validators.required);
   title = 'app';
   graph = { links: [], nodes: [] };
   userHashes: string;
@@ -44,7 +46,7 @@ export class AppComponent implements OnInit {
   }
 
   userInputUpdated(newValue: any): any {
-    this.inputError = false;
+    this.control.invalid = false;
     //Parse the field to see if a valid set of hashes has been supplied.
     let hashes: string[];
     try {
@@ -63,8 +65,8 @@ export class AppComponent implements OnInit {
     catch (e) {
       console.log('Exception thrown parsing: ' + newValue)
       console.log(e);
-      this.inputError = true;
-      console.log('this.input error: ' + this.inputError)
+      this.control.invalid = true;
+      console.log('this.input error: ' + this.control.invalid)
       return false;
     }
     // Remove duplicate hashes
