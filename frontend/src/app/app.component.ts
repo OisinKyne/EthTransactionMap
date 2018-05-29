@@ -4,8 +4,10 @@ import { forceCollide, forceManyBody, forceSimulation, forceX, forceY } from 'd3
 import * as shape from 'd3-shape';
 import { Transaction } from './models/transaction.model';
 import { RetrieveTransactionsService } from './services/retrieve-transactions.service';
-import { FormControl, Validators } from '@angular/forms';
-
+import { FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material';
+import { ValidateHashes } from './validators/transaction-list.validator';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-root',
@@ -13,20 +15,28 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  control = new FormControl('', Validators.required);
+  control = new FormControl('', ValidateHashes);
+  matcher = new MyErrorStateMatcher();
   title = 'app';
   graph = { links: [], nodes: [] };
   userHashes: string;
   inputError: boolean = false;
-  hashes = ["0x08fc50be3221ca854c04e4aa7bc5e3dfe2d41c8839f31319cc61402d4f802878", "0x872fdc875177c6c160a3fb401b1965808b38e82ac02d1fd8ccfc1993f2c1d98f", "0xe08a29ecd285cc6f4b30dae6372aab2286247ca681be89c4db2bba0773a93724", "0xa668e5476a5f06da7c36fa60ec70b6112cd67163bbb8d2fbe1aaeb5576b989d5", "0xf86327c88683baf6c539b4d64ab6f7d98af3ae9da0e4acc430252eba1fbb05ee"];
+  hashes = ["0xa837dc41e12ddc00d0987fa88d9f5e8c7513014369426726d5b709b5635a8290", "0x680831ae1c6f78055519fdfae4dd0af729a7304d38ebdbc6839e348e87628e9c", "0x0f8d020dd106ef8ebf2c211e23de6f283b8fa0068d27e70d6fa5e0533e585289", "0xf052f4ceab6dc1aabfe4b6b24ae70669ad15a21e5bb656d9c60326172931699c", "0xb30bed135d8e39a08bdc5b63c315d160510845d327fc03e70bfe34b8cf0b72ba"];
 
-  
+
   constructor(private transactionService: RetrieveTransactionsService) {
 
   }
 
   ngOnInit() {
-
+    this.transactionService.getTransactionsFromServer(this.hashes).subscribe(data => {
+      console.log('Request to the server for ' + this.hashes.length + ' hashes made.')
+      this.graph = this.processTransactions(data);
+      console.log('Updated the graph object.');
+    }, error => {
+      console.log('Error:');
+      console.log(error);
+    });
   }
 
   processTransactions(transactions: Transaction[]): any {
@@ -46,27 +56,13 @@ export class AppComponent implements OnInit {
   }
 
   userInputUpdated(newValue: any): any {
-    this.control.invalid = false;
+    if (isNullOrUndefined(newValue)) { return false; }
     //Parse the field to see if a valid set of hashes has been supplied.
     let hashes: string[];
     try {
-      const csv = this.parseCSV(newValue);
-      // const json = this.parseJSON(newValue);
-      if (csv !== null) {
-        hashes = csv;
-      } // else if (json !== null) {
-      //   hashes = csv;
-      // }
-      else {
-        //Not valid input. Alert and return
-        return false;
-      }
+      hashes = this.parseCSV(newValue);
     }
     catch (e) {
-      console.log('Exception thrown parsing: ' + newValue)
-      console.log(e);
-      this.control.invalid = true;
-      console.log('this.input error: ' + this.control.invalid)
       return false;
     }
     // Remove duplicate hashes
@@ -96,32 +92,19 @@ export class AppComponent implements OnInit {
       const hashes = input.split(',');
       for (const hash of hashes) {
         const cleanedHash = hash.replace(/[\W_]+/g, "");
-        if (!this.parseHash(cleanedHash)) {
+        if (this.parseHash(cleanedHash)) {
           console.log('Invalid hash supplied: ' + cleanedHash);
-        }
-        else {
           cleanedHashes.push(cleanedHash);
         }
       }
     } catch {
       console.log('Unknown error parsing CSV hashes.')
     }
-    if(cleanedHashes.length === 0) {
+    if (cleanedHashes.length === 0) {
       // Throw an error if we didn't parse a single hash.
       throw new ErrorEvent('No valid hashes supplied.');
     }
     return cleanedHashes;
-  }
-
-  parseJSON(input: string): string[] {
-    try {
-      const inputjson = JSON.parse(input);
-      return inputjson.hashes;
-    }
-    catch{
-      console.log('Failed to parse the given input as valid JSON');
-      return null;
-    }
   }
 
   //Function to verify that a given item is a valid transaction hash. 
@@ -156,5 +139,13 @@ export class AppComponent implements OnInit {
       }
     }
     return false;
+  }
+}
+
+
+//Error state matcher to update error state on a paste rather than just when someone clicks away.
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    return !!(control && control.invalid && (control.dirty || control.touched));
   }
 }
