@@ -14,7 +14,8 @@ import { RetrieveTransactionsService } from './services/retrieve-transactions.se
 export class AppComponent implements OnInit {
   title = 'app';
   graph = { links: [], nodes: [] };
-  userInput: string;
+  userHashes: string;
+  inputError: boolean = false;
   hashes = ["0x08fc50be3221ca854c04e4aa7bc5e3dfe2d41c8839f31319cc61402d4f802878", "0x872fdc875177c6c160a3fb401b1965808b38e82ac02d1fd8ccfc1993f2c1d98f", "0xe08a29ecd285cc6f4b30dae6372aab2286247ca681be89c4db2bba0773a93724", "0xa668e5476a5f06da7c36fa60ec70b6112cd67163bbb8d2fbe1aaeb5576b989d5", "0xf86327c88683baf6c539b4d64ab6f7d98af3ae9da0e4acc430252eba1fbb05ee"];
 
   
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
   }
 
   userInputUpdated(newValue: any): any {
+    this.inputError = false;
     //Parse the field to see if a valid set of hashes has been supplied.
     let hashes: string[];
     try {
@@ -61,6 +63,9 @@ export class AppComponent implements OnInit {
     catch (e) {
       console.log('Exception thrown parsing: ' + newValue)
       console.log(e);
+      this.inputError = true;
+      console.log('this.input error: ' + this.inputError)
+      return false;
     }
     // Remove duplicate hashes
     hashes = Array.from(new Set(hashes));
@@ -68,6 +73,7 @@ export class AppComponent implements OnInit {
     // Check if the inputted values evaluate to something other than the current hashes.
     // If they are different, run the transaction service on the new hashes.
     if (this.checkIfUpdated(hashes)) {
+
       // Now pass them to the transaction service.
       this.transactionService.getTransactionsFromServer(this.hashes).subscribe(data => {
         console.log('Request to the server for ' + this.hashes.length + ' hashes made.')
@@ -97,6 +103,10 @@ export class AppComponent implements OnInit {
       }
     } catch {
       console.log('Unknown error parsing CSV hashes.')
+    }
+    if(cleanedHashes.length === 0) {
+      // Throw an error if we didn't parse a single hash.
+      throw new ErrorEvent('No valid hashes supplied.');
     }
     return cleanedHashes;
   }

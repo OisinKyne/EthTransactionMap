@@ -16,6 +16,13 @@ export class GraphComponent implements OnInit {
   @Input() graph = { links: [], nodes: [] };
   selectedColorScheme = this.setColorScheme('cool');
   colorScheme: any;
+  animations: true;
+  view: any;
+  tooltipDisabled: any;
+  showLegend: any;
+  legendTitle: any;
+  onLegendLabelClick: any;
+  select: any;
   curve: any = shape.curveStep; // or some other function from d3-shape
   force: any = forceSimulation<any>()
     .force('charge', forceManyBody())
@@ -27,7 +34,7 @@ export class GraphComponent implements OnInit {
   ngOnInit() {
    
   }
-  
+
   setColorScheme(name) {
     this.selectedColorScheme = name;
     this.colorScheme = colorSets.find(s => s.name === name);

@@ -1,17 +1,21 @@
-<mat-toolbar >
-
+<mat-toolbar>
+  <img style="height: 40%; margin-right: 10px;" src="../assets/Ethereum_logo.svg" alt="Ethereum Logo" aria-label="Ethereum Logo">
+  <h1 class="mat-display-1">
     <span>Ethereum Transaction Visualiser</span>
-    <mat-form-field style="width:30%;margin-left: 10px;">
-      <textarea matInput 
-      matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2
-      #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)" placeholder="Enter a CSV list of Transaction Hashes"></textarea>
-    </mat-form-field>
-    <span class="example-spacer"></span>
-    <!-- Place this tag where you want the button to render. -->
-    <a class="github-button" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
+  </h1>
+  
+  <span class="example-spacer"></span>
+  <!-- Place this tag where you want the button to render. -->
+  <a class="github-button" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
 
 </mat-toolbar>
 
+<mat-form-field style="width:30%;margin-left: 20px; color: #777;">
+    <mat-label>Enter a CSV list of Transaction Hashes</mat-label>
+  <textarea matInput matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
+    errorState="inputError" placeholder=""></textarea>
+  <mat-error *ngIf="inputError" >Could not parse these as transaction hashes.</mat-error>
+</mat-form-field>
 
 <div *ngIf="graph.nodes.length!==0">
   <graph-component [graph]="graph"></graph-component>
