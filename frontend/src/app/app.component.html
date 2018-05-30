@@ -4,10 +4,10 @@
     <span>Ethereum Transaction Visualiser</span>
   </h1>
   <mat-form-field style="width:30%;margin-left: 20px; color: #777;">
-      <mat-label>Enter a comma-separated list of Ethereum transaction hashes</mat-label>
+    <mat-label>Enter a comma-separated list of Ethereum transaction hashes</mat-label>
     <textarea matInput matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
       [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
-    <mat-error >Could not parse these as transaction hashes.</mat-error>
+    <mat-error>Could not parse this as a list of transaction hashes.</mat-error>
   </mat-form-field>
   <span class="example-spacer"></span>
   <!-- Place this tag where you want the button to render. -->

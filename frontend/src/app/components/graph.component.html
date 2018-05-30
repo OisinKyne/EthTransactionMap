@@ -1,5 +1,29 @@
+<ngx-charts-force-directed-graph class="chart-container" [legend]="showLegend" [animations]="animations" [legendTitle]="legendTitle"
+  [links]="graph.links" (legendLabelClick)="onLegendLabelClick($event)" [nodes]="graph.nodes" [scheme]="colorScheme" [view]="view"
+  [tooltipDisabled]="tooltipDisabled" (select)="select($event)" [force]="force">
 
-  <ngx-charts-force-directed-graph class="chart-container" [legend]="showLegend"
-    [animations]="animations" [legendTitle]="legendTitle" [links]="graph.links"  (legendLabelClick)="onLegendLabelClick($event)"
-    [nodes]="graph.nodes" [scheme]="colorScheme" [view]="view" [tooltipDisabled]="tooltipDisabled" (select)="select($event)" [force]="force">
-  </ngx-charts-force-directed-graph> 
+  <ng-template #tooltipTemplate let-model="model">
+    <h3>
+      Address: {{model.value}}
+    </h3>
+    <h4>Click to open etherscan.io</h4>
+  </ng-template>
+
+  <ng-template #linkTemplate let-link>
+
+    <svg:defs>
+      <svg:marker id="arrow" viewBox="0 -5 10 10" refX="40" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+        <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+      </svg:marker>
+    </svg:defs>
+
+    <svg:line marker-end="url(#arrow)" stroke-width="1" class="edge" [attr.x1]="link.source.x" [attr.y1]="link.source.y" [attr.x2]="link.target.x"
+      [attr.y2]="link.target.y" />
+
+  </ng-template>
+
+
+  <ng-template #nodeTemplate let-node="node">
+    <svg:circle r="10" />
+  </ng-template>
+</ngx-charts-force-directed-graph>

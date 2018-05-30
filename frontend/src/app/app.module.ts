@@ -24,10 +24,8 @@ import { RetrieveTransactionsService } from './services/retrieve-transactions.se
     ReactiveFormsModule,
     HttpClientModule,
     MatToolbarModule,
-    MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    MatListModule
   ],
   providers: [RetrieveTransactionsService],
   bootstrap: [AppComponent]

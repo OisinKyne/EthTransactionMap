@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
-import { forceCollide, forceManyBody, forceSimulation, forceX, forceY } from 'd3-force';
-import * as shape from 'd3-shape';
+import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material';
+import { isNullOrUndefined } from 'util';
 import { Transaction } from './models/transaction.model';
 import { RetrieveTransactionsService } from './services/retrieve-transactions.service';
-import { FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material';
 import { ValidateHashes } from './validators/transaction-list.validator';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-root',
