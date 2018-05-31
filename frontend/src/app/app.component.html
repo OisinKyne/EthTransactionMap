@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar style="width: 100%">
   <!-- Eth Icon-->
   <img style="height: 40%; margin-right: 10px;" src="../assets/Ethereum_logo.svg" alt="Ethereum Logo" aria-label="Ethereum Logo">
 
@@ -6,7 +6,8 @@
   <h1 class="mat-display-1 non-mobile">
     <span>Ethereum Transaction Visualiser</span>
   </h1>
-  <h1 class="mat-display-1 mobile">
+  <!-- Mobile App Title-->
+  <h1 class="mat-display-2 mobile">
       <span>Transaction Visualiser</span>
     </h1>
 
@@ -22,7 +23,8 @@
   <span class="example-spacer"></span>
 
   <!--Follow GitHub-->
-  <a class="github-button" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
+  <a class="github-button non-mobile" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
+  <a class="github-button mobile" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">@oisinkyne</a>
 
 </mat-toolbar>
 
@@ -34,6 +36,6 @@
 </mat-form-field>
 
 
-<div *ngIf="graph.nodes.length!==0">
+<div *ngIf="graph.nodes.length!==0" style="width: 100%">
   <graph-component [graph]="graph"></graph-component>
 </div>
