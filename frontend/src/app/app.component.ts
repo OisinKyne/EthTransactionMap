@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener, ElementRef } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isNull } from 'util';
 import { Transaction } from './models/transaction.model';
 import { RetrieveTransactionsService } from './services/retrieve-transactions.service';
 import { ValidateHashes } from './validators/transaction-list.validator';
@@ -11,17 +11,18 @@ import { ValidateHashes } from './validators/transaction-list.validator';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   control = new FormControl('', ValidateHashes);
   matcher = new MyErrorStateMatcher();
   title = 'app';
+  view: [Number, Number] = [500, 500];
   graph = { links: [], nodes: [] };
   userHashes: string;
   inputError: boolean = false;
   hashes = ["0xa837dc41e12ddc00d0987fa88d9f5e8c7513014369426726d5b709b5635a8290", "0x680831ae1c6f78055519fdfae4dd0af729a7304d38ebdbc6839e348e87628e9c", "0x0f8d020dd106ef8ebf2c211e23de6f283b8fa0068d27e70d6fa5e0533e585289", "0xf052f4ceab6dc1aabfe4b6b24ae70669ad15a21e5bb656d9c60326172931699c", "0xb30bed135d8e39a08bdc5b63c315d160510845d327fc03e70bfe34b8cf0b72ba"];
 
 
-  constructor(private transactionService: RetrieveTransactionsService) {
+  constructor(private transactionService: RetrieveTransactionsService, private el: ElementRef) {
 
   }
 
@@ -34,6 +35,25 @@ export class AppComponent implements OnInit {
       console.log('Error:');
       console.log(error);
     });
+  }
+
+  ngAfterViewInit() {
+    const width = this.el.nativeElement.offsetWidth;
+    const height = this.el.nativeElement.offsetHeight
+    if (!isNullOrUndefined(width) && !isNullOrUndefined(height)) {
+      this.view[0] = width;
+      this.view[1] = height+300;
+    }
+  }
+
+  @HostListener('window:resize', ['$event.target'])
+  onResize() {
+    const width = this.el.nativeElement.offsetWidth;
+    const height = this.el.nativeElement.offsetHeight
+    if (!isNullOrUndefined(width) && !isNullOrUndefined(height)) {
+      this.view[0] = width;
+      this.view[1] = height+300;
+    }
   }
 
   processTransactions(transactions: Transaction[]): any {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, AfterViewInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 import { forceCollide, forceManyBody, forceSimulation, forceX, forceY } from 'd3-force';
 import * as shape from 'd3-shape';
@@ -6,11 +6,13 @@ import * as shape from 'd3-shape';
 @Component({
   selector: 'graph-component',
   templateUrl: './graph.component.html',
-  styleUrls: ['./graph.component.css']
+  styleUrls: ['./graph.component.css'], 
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent  {
 
 
+  @Input() inputView:any = [800, 500];
   @Input() graph = { links: [], nodes: [] };
   selectedColorScheme = this.setColorScheme('cool');
   colorScheme: any;
@@ -27,11 +29,7 @@ export class GraphComponent implements OnInit {
     .force('collide', forceCollide(50))
     .force('x', forceX())
     .force('y', forceY());
-
-
-  ngOnInit() {
-
-  }
+  
 
   setColorScheme(name) {
     this.selectedColorScheme = name;

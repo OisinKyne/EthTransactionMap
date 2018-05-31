@@ -1,5 +1,5 @@
-<ngx-charts-force-directed-graph class="chart-container" [legend]="showLegend" [animations]="animations" [legendTitle]="legendTitle"
-  [links]="graph.links" [nodes]="graph.nodes" [scheme]="colorScheme" [view]="view"
+<ngx-charts-force-directed-graph style="width:100%" class="chart-container" [legend]="showLegend" [animations]="animations" [legendTitle]="legendTitle"
+  [links]="graph.links" [nodes]="graph.nodes" [view]="inputView" [scheme]="colorScheme" [view]="view"
   [tooltipDisabled]="tooltipDisabled" [force]="force">
 
   <ng-template #tooltipTemplate let-model="model">

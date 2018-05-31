@@ -9,18 +9,18 @@
 
   @media (min-width:1000px)  {
     .non-mobile{
-      display:block;
+      display:block !important;
     }
     .mobile {
-      display: none;
+      display: none !important;
     }
   }
 
   @media (max-width:1000px)  {
     .non-mobile{
-      display:none;
+      display:none !important;
     }
     .mobile {
-      display: block;
+      display: block !important;
     }
   }

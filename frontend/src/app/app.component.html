@@ -1,41 +1,47 @@
-<mat-toolbar style="width: 100%">
-  <!-- Eth Icon-->
-  <img style="height: 40%; margin-right: 10px;" src="../assets/Ethereum_logo.svg" alt="Ethereum Logo" aria-label="Ethereum Logo">
+<div style="width:100%">
+  <mat-toolbar style="width: 100%; margin: 0px; min-width: 50px;">
+    <!-- Eth Icon-->
+    <img style="height: 40%; margin-right: 10px;" src="../assets/Ethereum_logo.svg" alt="Ethereum Logo" aria-label="Ethereum Logo">
 
-  <!-- App Title -->
-  <h1 class="mat-display-1 non-mobile">
-    <span>Ethereum Transaction Visualiser</span>
-  </h1>
-  <!-- Mobile App Title-->
-  <h1 class="mat-display-2 mobile">
+    <!-- App Title -->
+    <h1 class="mat-display-1 non-mobile">
+      <span>Ethereum Transaction Visualiser</span>
+    </h1>
+    <!-- Mobile App Title-->
+    <h1 class="mat-display-2 mobile">
       <span>Transaction Visualiser</span>
     </h1>
 
-  <!--On Desktop, form entry-->
-  <mat-form-field class="non-mobile" style="width:35%;margin-left: 20px; color: #777;">
-    <mat-label>Enter a comma-separated list of Ethereum transaction hashes</mat-label>
-    <textarea matInput matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
+    <!--On Desktop, form entry-->
+    <mat-form-field class="non-mobile" style="width:35%;margin-left: 20px; color: #777;">
+      <mat-label>Enter a comma-separated list of Ethereum transaction hashes</mat-label>
+      <textarea matInput matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
+        [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
+      <mat-error>Could not parse this as a list of transaction hashes.</mat-error>
+    </mat-form-field>
+
+
+    <span class="example-spacer"></span>
+
+    <!--Follow GitHub-->
+    <div class="non-mobile">
+      <a class="github-button" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
+    </div>
+    <div class="mobile">
+      <a class="github-button" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">@oisinkyne</a>
+    </div>
+
+  </mat-toolbar>
+
+  <mat-form-field class="mobile" style="width:100%;padding-left: 20px; color: #777; min-width: 50px;">
+    <mat-label>Enter a list of transaction hashes</mat-label>
+    <textarea matInput matTextareaAutosize matAutosizeMinRows=3 matAutosizeMaxRows=7 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
       [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
     <mat-error>Could not parse this as a list of transaction hashes.</mat-error>
   </mat-form-field>
 
 
-  <span class="example-spacer"></span>
-
-  <!--Follow GitHub-->
-  <a class="github-button non-mobile" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
-  <a class="github-button mobile" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">@oisinkyne</a>
-
-</mat-toolbar>
-
-<mat-form-field class="mobile" style="width:100%;margin-left: 20px; color: #777;">
-  <mat-label>Enter a list of transaction hashes</mat-label>
-  <textarea matInput matTextareaAutosize matAutosizeMinRows=3 matAutosizeMaxRows=7 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
-    [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
-  <mat-error>Could not parse this as a list of transaction hashes.</mat-error>
-</mat-form-field>
-
-
-<div *ngIf="graph.nodes.length!==0" style="width: 100%">
-  <graph-component [graph]="graph"></graph-component>
+  <div *ngIf="graph.nodes.length!==0" style="width: 100%;min-width: 50px;">
+    <graph-component style="width:100%" [graph]="graph" [inputView]="view" ></graph-component>
+  </div>
 </div>
