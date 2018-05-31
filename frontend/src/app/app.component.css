@@ -6,3 +6,21 @@
   .example-icon {
     padding: 0 14px;
   }
+
+  @media (min-width:1000px)  {
+    .non-mobile{
+      display:block;
+    }
+    .mobile {
+      display: none;
+    }
+  }
+
+  @media (max-width:1000px)  {
+    .non-mobile{
+      display:none;
+    }
+    .mobile {
+      display: block;
+    }
+  }

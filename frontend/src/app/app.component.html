@@ -1,20 +1,34 @@
 <mat-toolbar>
+  <!-- Eth Icon-->
   <img style="height: 40%; margin-right: 10px;" src="../assets/Ethereum_logo.svg" alt="Ethereum Logo" aria-label="Ethereum Logo">
+
+  <!-- App Title -->
   <h1 class="mat-display-1">
     <span>Ethereum Transaction Visualiser</span>
   </h1>
-  <mat-form-field style="width:30%;margin-left: 20px; color: #777;">
+
+  <!--On Desktop, form entry-->
+  <mat-form-field class="non-mobile" style="width:30%;margin-left: 20px; color: #777;">
     <mat-label>Enter a comma-separated list of Ethereum transaction hashes</mat-label>
     <textarea matInput matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
       [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
     <mat-error>Could not parse this as a list of transaction hashes.</mat-error>
   </mat-form-field>
+
+
   <span class="example-spacer"></span>
-  <!-- Place this tag where you want the button to render. -->
+
+  <!--Follow GitHub-->
   <a class="github-button" href="https://github.com/oisinkyne" aria-label="Follow @oisinkyne on GitHub">Follow @oisinkyne</a>
 
 </mat-toolbar>
 
+<mat-form-field class="mobile" style="width:100%;margin-left: 20px; color: #777;">
+  <mat-label>Enter a comma-separated list of Ethereum transaction hashes</mat-label>
+  <textarea matInput matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
+    [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
+  <mat-error>Could not parse this as a list of transaction hashes.</mat-error>
+</mat-form-field>
 
 
 <div *ngIf="graph.nodes.length!==0">
