@@ -1,6 +1,6 @@
 <ngx-charts-force-directed-graph class="chart-container" [legend]="showLegend" [animations]="animations" [legendTitle]="legendTitle"
-  [links]="graph.links" (legendLabelClick)="onLegendLabelClick($event)" [nodes]="graph.nodes" [scheme]="colorScheme" [view]="view"
-  [tooltipDisabled]="tooltipDisabled" (select)="select($event)" [force]="force">
+  [links]="graph.links" [nodes]="graph.nodes" [scheme]="colorScheme" [view]="view"
+  [tooltipDisabled]="tooltipDisabled" [force]="force">
 
   <ng-template #tooltipTemplate let-model="model">
     <h3>
@@ -23,7 +23,7 @@
   </ng-template>
 
 
-  <ng-template #nodeTemplate let-node="node">
+  <ng-template #nodeTemplate let-node >
     <svg:circle r="10" />
   </ng-template>
 </ngx-charts-force-directed-graph>
