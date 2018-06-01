@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   graph = { links: [], nodes: [] };
   userHashes: string;
   inputError: boolean = false;
-  hashes = ["0xa837dc41e12ddc00d0987fa88d9f5e8c7513014369426726d5b709b5635a8290", "0x680831ae1c6f78055519fdfae4dd0af729a7304d38ebdbc6839e348e87628e9c", "0x0f8d020dd106ef8ebf2c211e23de6f283b8fa0068d27e70d6fa5e0533e585289", "0xf052f4ceab6dc1aabfe4b6b24ae70669ad15a21e5bb656d9c60326172931699c", "0xb30bed135d8e39a08bdc5b63c315d160510845d327fc03e70bfe34b8cf0b72ba"];
+  hashes = [ "0xe08a29ecd285cc6f4b30dae6372aab2286247ca681be89c4db2bba0773a93724", "0x792d79af418717578dd4fae4fcc7c84c166558a985f03c841ab7a4a78d0d1237", "0xa837dc41e12ddc00d0987fa88d9f5e8c7513014369426726d5b709b5635a8290",  "0x680831ae1c6f78055519fdfae4dd0af729a7304d38ebdbc6839e348e87628e9c", "0x0f8d020dd106ef8ebf2c211e23de6f283b8fa0068d27e70d6fa5e0533e585289", "0xf052f4ceab6dc1aabfe4b6b24ae70669ad15a21e5bb656d9c60326172931699c", "0xb30bed135d8e39a08bdc5b63c315d160510845d327fc03e70bfe34b8cf0b72ba"  ];
 
 
   constructor(private transactionService: RetrieveTransactionsService, private el: ElementRef) {
