@@ -12,7 +12,7 @@ import * as shape from 'd3-shape';
 export class GraphComponent  {
 
 
-  @Input() inputView:any = [800, 500];
+  @Input() inputView:any = [400, 500];
   @Input() graph = { links: [], nodes: [] };
   selectedColorScheme = this.setColorScheme('cool');
   colorScheme: any;
