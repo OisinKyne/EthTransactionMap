@@ -1,7 +1,7 @@
 <div style="width:100%">
   <mat-toolbar style="width: 100%; margin: 0px; min-width: 50px;">
     <!-- Eth Icon-->
-    <img style="height: 40%; margin-right: 10px;" src="../assets/Ethereum_logo.svg" alt="Ethereum Logo" aria-label="Ethereum Logo">
+    <img style="height: 40%; padding-right: 10px;" src="../assets/Ethereum_logo.svg" alt="Ethereum Logo" aria-label="Ethereum Logo">
 
     <!-- App Title -->
     <h1 class="mat-display-1 non-mobile">
@@ -13,7 +13,7 @@
     </h1>
 
     <!--On Desktop, form entry-->
-    <mat-form-field class="non-mobile" style="width:35%;margin-left: 20px; color: #777;">
+    <mat-form-field class="non-mobile" style="width:35%;padding-left: 20px; color: #777;">
       <mat-label>Enter a comma-separated list of Ethereum transaction hashes</mat-label>
       <textarea matInput matTextareaAutosize matAutosizeMinRows=2 matAutosizeMaxRows=2 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
         [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
