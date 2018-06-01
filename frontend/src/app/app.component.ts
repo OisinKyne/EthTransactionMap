@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   control = new FormControl('', ValidateHashes);
   matcher = new MyErrorStateMatcher();
   title = 'app';
-  view: [Number, Number] = [500, 500];
+  view: [Number, Number] = [300, 500];
   graph = { links: [], nodes: [] };
   userHashes: string;
   inputError: boolean = false;
