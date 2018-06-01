@@ -33,15 +33,15 @@
 
   </mat-toolbar>
 
-  <mat-form-field class="mobile" style="width:100%;padding-left: 20px; color: #777; min-width: 50px;">
-    <mat-label>Enter a list of transaction hashes</mat-label>
+  <mat-form-field class="mobile" style="width:100%; color: #777; min-width: 50px;">
+    <mat-label style="padding-left:10px;">Enter a list of transaction hashes</mat-label>
     <textarea matInput matTextareaAutosize matAutosizeMinRows=3 matAutosizeMaxRows=7 #userInput [(ngModel)]="userHashes" (ngModelChange)="userInputUpdated($event)"
       [formControl]="control" [errorStateMatcher]="matcher" placeholder=""></textarea>
     <mat-error>Could not parse this as a list of transaction hashes.</mat-error>
   </mat-form-field>
 
 
-  <div *ngIf="graph.nodes.length!==0" style="width: 100%;min-width: 50px; overflow: hidden;">
+  <div *ngIf="graph.nodes.length!==0" style="width: 100%;min-width: 50px; margin-left:0px; overflow: hidden;">
     <graph-component style="width:100%" [graph]="graph" [inputView]="view" ></graph-component>
   </div>
 </div>
