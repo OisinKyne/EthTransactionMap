@@ -41,7 +41,7 @@
   </mat-form-field>
 
 
-  <div *ngIf="graph.nodes.length!==0" style="width: 100%;min-width: 50px;">
+  <div *ngIf="graph.nodes.length!==0" style="width: 100%;min-width: 50px; overflow: hidden;">
     <graph-component style="width:100%" [graph]="graph" [inputView]="view" ></graph-component>
   </div>
 </div>

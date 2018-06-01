@@ -1,5 +1,5 @@
-<ngx-charts-force-directed-graph style="width:100%" class="chart-container" [legend]="showLegend" [animations]="animations" [legendTitle]="legendTitle"
-  [links]="graph.links" [nodes]="graph.nodes" [view]="inputView" [scheme]="colorScheme" [view]="view"
+<ngx-charts-force-directed-graph style="width:100%" class="chart-container" [legend]="showLegend" [animations]="animations"
+  [legendTitle]="legendTitle" [links]="graph.links" [nodes]="graph.nodes" [view]="inputView" [scheme]="colorScheme" [view]="view"
   [tooltipDisabled]="tooltipDisabled" [force]="force">
 
   <ng-template #tooltipTemplate let-model="model">
@@ -9,7 +9,7 @@
     <h4>Click to open etherscan.io</h4>
   </ng-template>
 
-  <ng-template #linkTemplate let-link>
+  <!-- <ng-template #linkTemplate let-link>
 
     <svg:defs>
       <svg:marker id="arrow" viewBox="0 -5 10 10" refX="40" refY="0" markerWidth="4" markerHeight="4" orient="auto">
@@ -23,7 +23,10 @@
   </ng-template>
 
 
-  <ng-template #nodeTemplate let-node >
-    <svg:circle r="10" />
-  </ng-template>
+  <ng-template #nodeTemplate let-node>
+    <svg:g>
+      <svg:circle r="10" />
+    </svg:g>
+  </ng-template> -->
+
 </ngx-charts-force-directed-graph>

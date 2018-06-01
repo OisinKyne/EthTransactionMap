@@ -42,6 +42,10 @@ export class GraphComponent  {
     window.open("https://etherscan.io/address/" + event.name, "_blank");
   }
 
+  causeLoad(): boolean {
+    console.log('Testing to see if i can cheat change detection.');
+    return true;
+  }
 
 }
 
