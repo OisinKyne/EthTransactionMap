@@ -42,6 +42,7 @@
 
 
   <div *ngIf="graph.nodes.length!==0" style="width: 100%;min-width: 50px; margin-left:0px; overflow: hidden;">
-    <graph-component style="width:100%" [graph]="graph" [inputView]="view" ></graph-component>
+    <graph-component class="non-mobile" style="width:100%" [graph]="graph" [inputView]="view"></graph-component>
+    <graph-component class="mobile" style="width:100%" [graph]="graph" [inputView]="[300,300]"></graph-component>
   </div>
 </div>
